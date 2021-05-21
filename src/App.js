@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './App.css';
 
 // IMPORTING COMPONETS
@@ -24,6 +24,29 @@ const Home = () => {
   const [id, setId] =useState("");
   const [notes, setNotes] = useState([]);
   const [close, setClose] = useState(true);
+
+  // run once when the app starts
+  useEffect(() => {
+    getLocalNotes();
+  }, []);
+
+  useEffect(() => {
+    //save to local
+    const saveLocalNotes = () => {
+        localStorage.setItem("notes", JSON.stringify(notes));
+    };
+    saveLocalNotes();
+  }, [notes]);
+
+
+  const getLocalNotes = () => {
+    if(localStorage.getItem("notes") === null) {
+      localStorage.setItem("notes", JSON.stringify([]));
+    } else {
+      let noteLocal = JSON.parse(localStorage.getItem("notes"));
+      setNotes(noteLocal);
+    }
+  };
 
   //JAVASCRIPT EVENTS
   const toggleSide = () => {
