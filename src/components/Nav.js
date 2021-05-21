@@ -31,12 +31,15 @@ const months = [
 const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 function formatDate(d) {
+  if (window.screen.width < 600) {
+    return "";
+  }
   const day = days[d.getDay()];
   const date = d.getDate();
   const month = months[d.getMonth()];
   // const year = d.getFullYear();
   const time = d.toLocaleTimeString([], { hour: '2-digit', minute: "2-digit" })
-  return `${month}, ${date}  |  ${day.substring(0,3)}  |  ${time}`;
+  return `${day.substring(0,3)}, ${date} ${month}  |  ${time}`;
 }
 
 var icon = "";
