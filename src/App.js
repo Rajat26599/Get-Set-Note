@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, createContext, useContext} from 'react';
 import './App.css';
 
 // IMPORTING COMPONETS
@@ -6,22 +6,33 @@ import Nav from './components/Nav';
 import Side from './components/Side';
 import NotesDetail from './components/NotesDetail';
 
-function App() {
+export const ThemeContext = createContext(null);
 
+function App() {
+;
+  const [theme, setTheme] = useState("light");
+  const toggleTheme = () => {
+    setTheme(theme=="light"?"dark":"light");
+  }
   return (
-    <div className="App">
-      <Home />
-    </div>
+    <ThemeContext.Provider value={theme}>
+      <div className="App" style={{background:theme}}>
+        <Home toggleTheme={toggleTheme}/>
+      </div>
+    </ThemeContext.Provider>
   );
 }
 
 export default App;
 
-const Home = () => {
+
+const Home = (props) => {
+
+  const theme = useContext(ThemeContext);
 
   const [inputText, setInputText] = useState("");
   const [inputTitle, setInputTitle] = useState("");
-  const [id, setId] =useState("");
+  const [id, setId] = useState("");
   const [notes, setNotes] = useState([]);
   const [close, setClose] = useState(true);
 
@@ -51,11 +62,11 @@ const Home = () => {
   //JAVASCRIPT EVENTS
   const toggleSide = () => {
     if (close) {
-      document.getElementsByClassName("sidebar")[0].style.left = "0%";
+      document.getElementById("sidebar").style.left = "0%";
       document.getElementById("grid-btn").style.marginLeft = "65%";
     }
     else {
-      document.getElementsByClassName("sidebar")[0].style.left = "-60%";
+      document.getElementById("sidebar").style.left = "-60%";
       document.getElementById("grid-btn").style.marginLeft = "0%";
     }
     setClose(!close)
@@ -63,10 +74,10 @@ const Home = () => {
 
 
   return (
-    <div>
-      <Nav/>
+    <div className={`home-${theme}`}>
+      <Nav toggleTheme={props.toggleTheme}/>
       <div className="main">
-        <div className="sidebar" id="sidebar">
+        <div className={`sidebar-${theme}`} id="sidebar">
           <Side
             notes={notes}
             setNotes={setNotes}
@@ -77,7 +88,7 @@ const Home = () => {
             toggleSide={toggleSide}
           />
         </div>
-        <div className = "notes-detail">
+        <div className={`notes-detail-${theme}`}>
           <NotesDetail
             notes={notes}
             setNotes={setNotes}

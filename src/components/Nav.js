@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { ThemeContext } from "../App";
 
 // IMPORTING ICONS
 import cloudy from '../assets/img/weather-icons/animated/cloudy.svg';
@@ -98,24 +99,32 @@ async function getLocalWeather() {
   return weather;
 }
 
-const Nav = () => {
+const Nav = (props) => {
+
+  const theme = useContext(ThemeContext);
+
   const [weather, setWeather] = useState(null);
   useEffect(() => {
     getLocalWeather().then(setWeather, console.error);
   }, []);
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+    <nav className={`navbar navbar-expand-lg navbar-${theme} bg-${theme}`}>
       <a className="navbar-brand" href="/#">
         Get-Set-Note
       </a>
-      <div className="date">{formatDate(new Date())}</div>
+      <div className={`date-${theme}`}>{formatDate(new Date())}</div>
       {weather ?
         <div className="weather">
           <img id="weather-icon" src={icon} alt="" />
-          <span className="temp">{Math.round(weather.main.temp)}°c</span>
+          <span className={`temp-${theme}`}>{Math.round(weather.main.temp)}°c</span>
         </div>
       : null}
+      
+      <label className="switch">
+        <input type="checkbox" onChange={props.toggleTheme}/>        
+        <span className="slider round"><i className={`fas fa-${theme=="dark"?"sun":"moon"}`}></i></span>
+      </label>
     </nav>
   );
 };

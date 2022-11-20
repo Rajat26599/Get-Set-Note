@@ -1,7 +1,12 @@
+import { useContext } from 'react';
+import { ThemeContext } from '../App';
+
 import NotesCard from './NotesCard';
 import hangOut from '../assets/img/hangOut.svg';
 
 const Side = ({setInputText, setInputTitle, notes, setNotes, setId, close, toggleSide}) => {
+
+  const theme = useContext(ThemeContext);
 
   return (
     <div className="container">
@@ -9,7 +14,7 @@ const Side = ({setInputText, setInputTitle, notes, setNotes, setId, close, toggl
       {(!notes.length) &&
         <div>
           <img id="sideImg" src={hangOut} alt="hangOut"/>
-          <p id="sideMessage" >Nothing Found!</p>
+          <p className={`sideMessage-${theme}`} >Nothing Found!</p>
         </div>
       }
       <div>

@@ -1,4 +1,9 @@
+import { useContext } from "react";
+import {ThemeContext} from "../App.js";
+
 const NotesDetail = ({inputText, setInputText, inputTitle, setInputTitle, notes, setNotes, displayNote, id, setId, close, toggleSide}) => {
+
+  const theme = useContext(ThemeContext);
 
   const submitHandler = () => {
     if (inputText || inputTitle) {
@@ -83,19 +88,23 @@ const NotesDetail = ({inputText, setInputText, inputTitle, setInputTitle, notes,
       </div>
       <h4><textarea
         id="titlearea"
+        className={`titlearea-${theme}`}
         value={inputTitle}
         onChange={(e)=>setInputTitle(e.target.value)}
         placeholder="Title"
+        style={{color:theme=="light"?"#222":"white"}}
       /></h4>
       <div>
         <textarea
           id="textarea"
+          className={`textarea-${theme}`}
           value={inputText}
           onChange={(e)=>setInputText(e.target.value)}
           placeholder="Type the notes here..."
+          style={{color:theme=="light"?"#222":"white"}}
         />
       </div>
-      <p id="footerCredits">Made with ❤️ by Rajat Saxena</p>
+      <p className={`footerCredits-${theme}`} style={{color:theme=="light"?"#222":"white"}}>Made with ❤️ by Rajat Saxena</p>
     </div>
   );
 }
