@@ -45,7 +45,7 @@ function formatDate(d) {
 var icon = "";
 
 async function getWeatherForCoordinates(latitude, longitude) {
-  const cityResp = await fetch(`https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=f090ea5238b8437fbc5ed6d9b0f9e261`);
+  const cityResp = await fetch(`https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=7db30636982141cf873e9609b4e52adc`);
   const result = await cityResp.json();
   const query = result.results[0].components.city;
   const weatherResp = await fetch(`${api.base}weather?q=${query}&units=metric&APPID=${api.key}`);
