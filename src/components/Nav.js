@@ -11,7 +11,7 @@ import sun from '../assets/img/weather-icons/animated/day.svg';
 import moon from '../assets/img/weather-icons/animated/night.svg';
 
 const api = {
-  key: "a9346aa8cbb9cd7d78d1329ca69bdbcd",
+  key: process.env.REACT_APP_WEATHER_API_KEY,
   base: "https://api.openweathermap.org/data/2.5/",
 };
 
@@ -46,7 +46,8 @@ function formatDate(d) {
 var icon = "";
 
 async function getWeatherForCoordinates(latitude, longitude) {
-  const cityResp = await fetch(`https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=7db30636982141cf873e9609b4e52adc`);
+  
+  const cityResp = await fetch(`https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${process.env.REACT_APP_LOCATION_API_KEY}`);
   const result = await cityResp.json();
   const query = result.results[0].components.city;
   const weatherResp = await fetch(`${api.base}weather?q=${query}&units=metric&APPID=${api.key}`);
